@@ -20,8 +20,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground source={bgImg} resizeMode="cover" style={styles.image}>
-        <Registarion />
-        {/* <LoginSreen /> */}
+        {/* <Registarion /> */}
+        <LoginSreen />
         {/* <Posts /> */}
         <StatusBar style="auto" />
       </ImageBackground>

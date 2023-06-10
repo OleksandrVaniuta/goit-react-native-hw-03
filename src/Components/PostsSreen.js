@@ -12,9 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import LogOut from './SvgComponents/SvgComponentLogOut';
-import Grid from './SvgComponents/SvgComponentMenu';
-import Cross from './SvgComponents/SvgComponentCros';
-import User from './SvgComponents/SvgComponentPerson';
+import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const CONTENT = [
   {
@@ -31,18 +30,6 @@ const CONTENT = [
 
 export default function Posts() {
   const [content, setCourses] = useState(CONTENT);
-  //   const shadowStyle = Platform.select({
-  //     ios: {
-  //       shadowColor: '#000',
-  //       shadowOffset: { width: 0, height: 2 },
-  //       shadowOpacity: 0.3,
-  //       shadowRadius: 6,
-  //     },
-  //     android: {
-  //       overflow: 'hidden',
-  //       elevation: 1,
-  //     },
-  //   });
 
   return (
     <SafeAreaView style={styles.PostScrenContainer}>
@@ -70,13 +57,13 @@ export default function Posts() {
       </View>
       <View style={styles.PostsBar}>
         <TouchableOpacity>
-          <Grid />
+          <AntDesign name="appstore-o" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.AddBtn}>
-          <Cross />
+          <AntDesign name="plus" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <User />
+          <Ionicons name="person-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

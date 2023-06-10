@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import SvgComponent from './SvgComponents/SvgComponentAdd';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function Registration() {
   const [isFocused, setIsFocused] = useState({
@@ -21,6 +21,8 @@ export default function Registration() {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
   const handleFocus = (inputName) => {
     setIsFocused((prev) => ({ ...prev, [inputName]: true }));
@@ -31,8 +33,22 @@ export default function Registration() {
   };
 
   const onRegister = () => {
+    if (!isValid || login === '' || email === '' || password === '') {
+      Keyboard.dismiss();
+      return;
+    }
     console.log(`login: ${login}, Email: ${email}, Password: ${password}`);
     Keyboard.dismiss();
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const validateEmail = (text) => {
+    setEmail(text);
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    setIsValid(emailPattern.test(text));
   };
 
   return (
@@ -46,7 +62,12 @@ export default function Registration() {
           <View style={styles.form}>
             <View style={styles.photoBox}>
               <View style={styles.photoContainer}>
-                <SvgComponent />
+                <AntDesign
+                  style={styles.iconAdd}
+                  name="pluscircleo"
+                  size={24}
+                  color="#FF6C00"
+                />
               </View>
             </View>
             <Text style={styles.RegTitle}>Реєстрація</Text>
@@ -66,12 +87,19 @@ export default function Registration() {
                 styles.input,
                 styles.inputMail,
                 isFocused.input2 && styles.inputFocused,
+                !isValid && styles.inValid,
               ]}
               placeholder="Адреса електронної пошти"
-              onFocus={() => handleFocus('input2')}
+              onFocus={() => {
+                handleFocus('input2');
+              }}
+              // onChangeText={(text) => validate(text)}
               onBlur={() => handleBlur('input2')}
-              onChangeText={setEmail}
+              onChangeText={validateEmail}
             />
+            {!isValid && (
+              <Text style={styles.validationText}>Invalid email</Text>
+            )}
             <View style={styles.passContainer}>
               <TextInput
                 style={[
@@ -80,11 +108,15 @@ export default function Registration() {
                   isFocused.input3 && styles.inputFocused,
                 ]}
                 placeholder="Пароль"
+                secureTextEntry={!showPassword}
                 onFocus={() => handleFocus('input3')}
                 onBlur={() => handleBlur('input3')}
                 onChangeText={setPassword}
               />
-              <TouchableOpacity style={styles.showPasswordButton}>
+              <TouchableOpacity
+                style={styles.showPasswordButton}
+                onPress={togglePasswordVisibility}
+              >
                 <Text style={styles.showPasswordText}>Показати</Text>
               </TouchableOpacity>
             </View>
@@ -133,10 +165,10 @@ const styles = StyleSheet.create({
     top: -60,
     right: -60,
   },
-  addPlus: {
+  iconAdd: {
     position: 'relative',
-    top: -60,
-    right: -60,
+    top: 80,
+    right: -107.5,
   },
   RegContainer: {
     flex: 1,
@@ -166,6 +198,12 @@ const styles = StyleSheet.create({
   },
   inputFocused: {
     borderColor: '#FF6C00',
+  },
+  inValid: {
+    borderColor: '#FF0000',
+  },
+  validationText: {
+    color: '#FF0000',
   },
   inputLogin: {
     margin: 0,
